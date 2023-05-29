@@ -1,0 +1,71 @@
+```{r}
+install.packages('tidyverse')
+library(tidyverse)
+```
+
+```{r}
+daily_activity <- read.csv("dailyActivity_merged.csv")
+```
+
+```{r}
+sleep_day <- read.csv("sleepDay_merged.csv")
+```
+
+```{r}
+head(daily_activity)
+```
+
+```{r}
+colnames(daily_activity)
+```
+
+Take a look at the sleep_day data.
+```{r}
+head(sleep_day)
+```
+
+```{r}
+colnames(sleep_day)
+```
+
+```{r distinct users}
+n_distinct(daily_activity$Id)
+n_distinct(sleep_day$Id)
+```
+
+```{r observations}
+nrow(daily_activity)
+nrow(sleep_day)
+```
+
+```{r}
+daily_activity %>%  
+  select(TotalSteps,
+         TotalDistance,
+         SedentaryMinutes) %>%
+  summary()
+```
+
+```{r}
+sleep_day %>%  
+  select(TotalSleepRecords,
+  TotalMinutesAsleep,
+  TotalTimeInBed) %>%
+  summary()
+```
+
+```{r}
+ggplot(data=daily_activity, aes(x=TotalSteps, y=SedentaryMinutes)) + geom_point()
+```
+
+```{r}
+ggplot(data=sleep_day, aes(x=TotalMinutesAsleep, y=TotalTimeInBed)) + geom_point()
+```
+
+```{r}
+combined_data <- merge(sleep_day, daily_activity, by="Id")
+```
+
+```{r}
+n_distinct(combined_data$Id)
+```
